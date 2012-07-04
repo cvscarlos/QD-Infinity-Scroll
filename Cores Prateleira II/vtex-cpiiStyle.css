@@ -1,0 +1,22 @@
+.vtex-cpiiShow{display:inline;}
+.vtex-cpiiHide{display:none;}
+.vtex-cpiiThumbsListOverlay, .vtex-cpiiTextOverlay, .vtex-cpiiProductImageOverlay, .vtex-cpiiInnerOverlay{display:none; position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid #F1F1F1; opacity:0.7; filter:Alpha(opacity=70); background:url("/arquivos/ajax-loader.gif") no-repeat center center #FFF;}
+.vtex-cpiiProductField{display:none;}
+
+.vtex-cpiiThumbsWrap{position:relative; z-index:1;}
+.vtex-cpiiProductTextWrap{position:relative; display:block;}
+.vtex-cpiiProductImage{position:relative;}
+
+/* Nokia */
+.vtex-cpiiThumbsWrap{float:left;}
+.vtex-cpiiProductImage{display:block; width:300px; float:right;}
+.vtex-cpiiThumbsUl{padding: 10px 0 5px 10px; width:82px;}
+.vtex-cpiiThumbsUl li{float:left; border:1px solid #E3E3E3; padding-bottom:3px; width:82px;}
+#produto #imagemproduto .vtex-cpiiThumbsImg{margin: 5px auto;}
+.vtex-cpiiSkuList{float:left;}
+.cores{margin-top:8px;}
+.cores .text{float:left; line-height:60px; font-weight:bold; margin:0 4px; color:#737272;}
+.vtex-cpiiSkuIds{float:left; display:block; width:55px; height:55px; border:2px solid #FFF; margin:0 1px;}
+.vtex-cpiiSkuIdsSelected{border-color:#4ACF18;}
+.vtex-cpiiInner{position:relative; display:block; height:100%; width:100%; cursor:pointer;}
+.vtex-cpiiInnerOverlay{width:53px; height:53px;}

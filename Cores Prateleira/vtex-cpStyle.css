@@ -1,0 +1,22 @@
+.vtex-cpProductField{display:none;}
+.vtex-cpProductTextWrap{position:relative; display:block;}
+.vtex-cpOverlay, .vtex-cpImgOverlay{display:none; position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid #F1F1F1; opacity:0.7; filter:Alpha(opacity=70); background:url("/arquivos/ajax-loader.gif") no-repeat center center #FFF;}
+.vtex-cpImgOverlay{z-index:10; top:35%; left:35%; width:30%; height:30%;}
+.vtex-cpShow{display:inline;}
+.vtex-cpHide{display:none;}
+/* Sku List */
+.vtex-cpInner{border:1px solid #FFF; display:block;}
+.vtex-cpSkuIds{cursor:pointer; display:block; float:left; border:1px solid #000; margin-left:6px; background:transparent !important; background-position:center center;}
+.vtex-cpSkuList .vtex-cpFirst{margin-left:0;}
+/* Sugestions */
+.vtex-cpProductImage{position:relative; display:block;}
+.vtex-cpOriginalImage, .vtex-cpSkuImage{position:absolute; top:0; left:0;}
+/* Thumbs */
+.vtex-cpViewMore{border:1px solid #000000; float:left; margin-left:6px; font-size:19px; font-weight:900; text-align:center;}
+.vtex_cpActiveSku{border-color:#FF7E00;}
+
+/* Sizes */
+.vtex-cpImgsThumb, .vtex-cpInner{width:23px; height:23px;}
+.vtex-cpSkuIds, .vtex-cpViewMore{height:25px; width:25px;}
+.vtex-cpProductImage{height:130px; width:130px;}
+.vtex-cpProductImage img{max-height:130px; max-width:130px;}

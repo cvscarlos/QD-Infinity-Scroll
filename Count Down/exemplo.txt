@@ -1,0 +1,6 @@
+$(function(){
+	$(".skuWrap").vtexCountdown({element:".productDiscount p[class*=|]",outputFormat:2});
+});
+
+
+Nome da promoção: Tempo Regressivo |03/02/2012 22:10

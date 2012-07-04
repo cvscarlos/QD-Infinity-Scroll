@@ -1,0 +1,43 @@
+#set($id = $product.Id)
+#set($uri = $product.Uri)
+#set($escapedName = $product.HtmlEscapedName)
+
+<a title="$escapedName" class="highlight vtex-cpProductLink" href="$uri">$product.HightLight</a>
+<a class="productImage vtex-cpProductImage vtex-cpProductLink" title="$escapedName" href="$uri"><div class="vtex-cpImgOverlay"></div>$product.GetImageTag(30)</a>
+<div class="vtex-cpProductField">$product.ProductField(5)</div>
+<div class="data">
+	<h3><a title="$escapedName" class="vtex-cpProductLink" href="$uri">$product.Name</a></h3>
+	<div class="vtex-cpBox">
+		<div class="vtex-cpSkuList #if($product.IsInStock) vtex-cpShow #else vtex-cpHide #end"></div>
+		<a href="$uri" class="vtex-cpViewMore vtex-cpProductLink vtex-cpHide">+</a>
+		<div style="clear:both;"></div>
+	</div>
+	<div class="discount">$product.DiscountHightLight</div>
+    <span class="vtex-cpProductTextWrap">
+        <div class="vtex-cpOverlay"></div>
+        <span class="vtex-cpProductInfoWrap">
+            <span class="vtex-cpProductInfo #if($product.IsInStock) vtex-cpShow #else vtex-cpHide #end">
+                <p class="price">
+                    <a title="$escapedName" class="vtex-cpProductLink" href="$uri">
+                        <span class="vtex-cpListPriceWrap #if($product.HasBestPrice) vtex-cpShow #else vtex-cpHide #end">
+                            <span class="oldPrice"><span>De: </span><em><span class="vtex-cpListPrice">$product.ListPrice</span></em></span>
+                        </span>
+                        <span class="newPrice"><span>Por: </span><em><span class="vtex-cpBestPrice">$product.BestPrice</span></em></span>
+                        <em class="installment">
+                            <span class="vtex-cpInstallment #if($product.NumbersOfInstallment>1) vtex-cpShow #else vtex-cpHide #end">
+                                ou até <span class="vtex-cpNumbersOfInstallment">${product.NumbersOfInstallment}</span>X de <span class="vtex-cpInstallmentValue">$product.InstallmentValue</span>
+                            </span>
+                            <span class="vtex-cpFullRegularPrice #if($product.NumbersOfInstallment>1) vtex-cpHide #else vtex-cpShow #end">à vista</span>
+                        </em>
+                    </a>
+                </p>
+            </span>
+            <span class="vtex-cpProductUnavailable #if($product.IsInStock) vtex-cpHide #else vtex-cpShow #end">
+                <p class="outOfStock">Produto Esgotado</p>
+            </span>
+        </span>
+    </span>
+	<p class="category"><a href="$product.CategoryLink">$product.CategoryName</a></p>
+	<p class="brand">$product.BrandLink</p>
+	<p class="quickView"><a href="/quick-view/?idproduto=$id&amp;KeepThis=true" rel="nofollow" class="quickViewLink"><span>+</span> Espiar</a></p>
+</div>

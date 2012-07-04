@@ -1,0 +1,32 @@
+#set($id = $product.Id)
+#set($uri = $product.Uri)
+#set($escapedName = $product.HtmlEscapedName)
+
+<a title="$escapedName" class="highlight" href="$uri">$product.HightLight</a>
+<a class="productImage" title="$escapedName" href="$uri">$product.GetImageTag(30)</a>
+<div class="data">
+	<h3><a title="$escapedName" href="$uri">$product.Name</a></h3>
+	#if ($product.IsInStock)
+		<p class="price">
+			<a title="$escapedName" href="$uri">
+				#if ($product.BestPrice < $product.ListPrice)
+					<span class="oldPrice"><span>De: </span><em>$product.ListPrice</em></span>
+				#end
+				<span class="newPrice"><span>Por: </span><em>$product.BestPrice</em></span>
+				<em class="installment">
+					#if ($product.NumbersOfInstallment > 1)
+						ou até ${product.NumbersOfInstallment}X de $product.InstallmentValue
+					#else
+						à vista
+					#end
+				</em>
+			</a>
+		</p>
+		<div class="discount">$product.DiscountHightLight</div>
+	#else
+		<p class="outOfStock">Produto Esgotado</p> 
+	#end
+	<p class="category"><a href="$product.CategoryLink">$product.CategoryName</a></p>
+	<p class="brand">$product.BrandLink</p>
+	<p class="quickView"><a href="/quick-view/?idproduto=$id&amp;KeepThis=true" rel="nofollow" class="quickViewLink"><span>+</span> Espiar</a></p>
+</div>

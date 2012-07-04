@@ -1,0 +1,45 @@
+#set($uri = $product.Uri)
+<!-- vtexcp Padrão -->
+<div class="vtex-cpProductField">$product.ProductField(20)</div>
+<input type="hidden" class="vtex-cpUri" value="$uri" />
+<!-- vtexcp Padrão -->
+
+<div class="first column">$product.Compare</div>
+<div class="second column">
+    <div class="productImage"><a title="$escapedName" href="$uri">$product.GetImageTag(29)</a></div>
+	<!-- vtexcp miniaturas -->
+	<div class="vtex-cpBox">
+		<div class="vtex-cpSkuList #if($product.IsInStock) vtex-cpShow #else vtex-cpHide #end"></div>
+		<a href="$uri" class="vtex-cpViewMore vtex-cpProductLink vtex-cpHide">+</a>
+		<div style="clear:both;"></div>
+	</div>
+	<!-- vtexcp miniaturas -->
+</div>
+<div class="third column"><div class="specificationWrapper"><h3><a title="$escapedName" href="$uri">$product.Name</a></h3></div></div>
+<div class="fourth column">
+	<!-- vtexcp --><span class="vtex-cpProductInfo #if($product.IsInStock) vtex-cpShow #else vtex-cpHide #end"><!-- vtexcp -->
+		<div class="price">
+			<a title="$escapedName" href="$uri">
+				<!-- vtexcp Preço De -->
+				<span class="vtex-cpListPriceWrap #if($product.HasBestPrice) vtex-cpShow #else vtex-cpHide #end">
+					<span class="oldPrice">de <span class="vtex-cpListPrice">$product.ListPrice</span></span>
+				</span>
+				<!-- vtexcp Preço De -->
+				<span class="newPrice"><span>por </span><em><span class="vtex-cpBestPrice">$product.BestPrice</span></em></span>
+				<span class="installment">
+					<!-- vtexcp Parcelamento -->
+					<span class="vtex-cpInstallment #if($product.NumbersOfInstallment>1) vtex-cpShow #else vtex-cpHide #end">
+						ou <span class="vtex-cpNumbersOfInstallment">${product.NumbersOfInstallment}</span>X de <span class="vtex-cpInstallmentValue">$product.InstallmentValue</span> sem juros
+					</span>
+					<!-- vtexcp Parcelamento -->
+					<span class="vtex-cpFullRegularPrice #if($product.NumbersOfInstallment>1) vtex-cpHide #else vtex-cpShow #end">à vista</span>
+				</span>
+			</a>
+			<span class="economia-de vtex-cpSave #if($product.ListPriceMinusBestPrice==0) vtex-cpHide #else vtex-cpShow #end">Economia de $product.ListPriceMinusBestPrice</span>
+		</div>
+	<!-- vtexcp --></span><!-- vtexcp -->
+	<!-- vtexcp --><span class="vtex-cpProductUnavailable #if($product.IsInStock) vtex-cpHide #else vtex-cpShow #end"><!-- vtexcp -->
+		<p class="outOfStock">Produto Esgotado</p>
+	<!-- vtexcp --></span><!-- vtexcp -->
+</div>
+<div class="fifth column">$product.BottomBuy</div>

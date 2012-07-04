@@ -38,7 +38,7 @@ jQuery.fn.coresPrateleira=function(opts)
 				return (document.location.href.indexOf(".vtexcommerce")>-1)?link:link.replace(".vtexcommerce","").replace(/:\/\/(?!www)|:\/\/(?!www)/i,"://www.");
 			},
 			forceAvailable:false, // Exibir ou não a informação de produto indisponível. Caso seja definido como "true" serão exibidos os dados de preço/parcelamento mesmo p/ um SKU indisponível
-			forceImgList:false, // Força a exibição das miniaturas mesmo quando o produto esta esgotado, esta regra é ignorada quando "forceImgList" esta como "true"
+			forceImgList:false, // Força a exibição das miniaturas mesmo quando o produto esta esgotado, esta regra é ignorada quando "forceAvailable" esta como "true"
 			autoSetup:true, // O script tenta pré configurar a prateleira automaticamente
 			minSkuQttShow:2, // Quantidade miníma de SKUs necessários para exibir as miniaturas
 			productImgId:30, // Id do tamanho da imagem a ser exibida na prateleira

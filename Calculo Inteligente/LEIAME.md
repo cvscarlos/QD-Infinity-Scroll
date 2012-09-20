@@ -20,17 +20,17 @@
 	<span class="dscrptn_desc">À vista no boleto ou débito em conta</span>
 </div>
 
-* $(".productColumnMain .flag").calc_desc();
-* Calcula o valor da flag da página de produtos
-	
-* $(".prateleira").calc_desc();
-* Calcula o valor da flag das prateleiras
-	
-* $(".prateleira").calc_desc({ container: ".total_desc_container" });
-* Elemento retentor do preço calculado na página de produtos.
+#### Chamando o Plugin
 
-* $(".prateleira").calc_desc({ container_shelf: ".data .total_desc_container" });
-* elemento retentor do preço calculado nas prateleiras.
+* <script type="text/javascript" src="/arquivos/calc_desc.js"></script>
+
+* $(".productColumnMain .flag").calc_desc(); - Calcula o valor da flag da página de produtos
+	
+* $(".prateleira").calc_desc(); - Calcula o valor da flag das prateleiras
+	
+* $(".prateleira").calc_desc({ container: ".total_desc_container" }); - Elemento retentor do preço calculado na página de produtos.
+
+* $(".prateleira").calc_desc({ container_shelf: ".data .total_desc_container" }); - elemento retentor do preço calculado nas prateleiras.
 
 ### Detalhes
 	* São obrigatórios os controles de preço (<vtex.cmc:skuPrice />) e de prateleira para que o plugin funcione;

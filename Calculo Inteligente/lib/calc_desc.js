@@ -1,3 +1,12 @@
+// Calculo Inteligente
+// Version - 1.0
+//
+// Author: Edson Domingos Júnior - edson.domingos@vtex.com.br
+// Contributor: Maurício da Rocha - mauricio.rocha@vtex.com.br
+// Contributor: Carlos Vinícius - carlos.santos@vtex.com.br
+//
+// https://bitbucket.org/vs_carlos/vtex_extensoes/src/ae399cbabeb6/Calculo%20Inteligente
+
 (function($) {
 
 	$.fn.calc_desc = function(opts) {
@@ -25,6 +34,7 @@
 				$plugin.calc_discount_product_page();
 				$plugin.calc_discount_shelf();
 			},
+			// Calcula a promoção da página de produtos
 			calc_discount_product_page: function() {
 				if ($("body.produto").length>0 && !$elem.hasClass("prateleira")) {
 					var wrapper = $($options.desc_wrapper);
@@ -36,6 +46,7 @@
 					wrapper.show();
 				}
 			},
+			// Calcula a promoção das prateleiras
 			calc_discount_shelf: function() {
 				if($elem.hasClass("prateleira")) {
 					$elem.find("li").each(function() {
@@ -55,6 +66,7 @@
 					});
 				}
 			},
+			// Converte o valor a ser calculado para Unidade Monetária Nacional
 			number_format:function(val) {
 				var out="",_char="", thousandsFormatted="", values, numbers, i, numLength, thousandsSeparator;
 			

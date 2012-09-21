@@ -1,5 +1,5 @@
 /**
-* Inifinity Scroll
+* Infinity Scroll
 * @author Carlos Vinicius
 * @version 2.2
 * @date 2011-04-10

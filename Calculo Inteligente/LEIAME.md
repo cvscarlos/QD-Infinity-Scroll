@@ -15,6 +15,7 @@
 </div>
 
 #### HTML a ser adicionado no template de prateleira
+
 :::html
 <div class="desc">				
 	<em class="valor_desc"><span>Ou:</span> <strong class="descPrice">R$  <span class="total_desc_container"></span></strong></em>

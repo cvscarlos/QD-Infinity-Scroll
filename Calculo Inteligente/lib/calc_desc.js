@@ -37,34 +37,36 @@
 			// Calcula a promoção da página de produtos
 			calc_discount_product_page: function() {
 				if ($("body.produto").length>0 && !$elem.hasClass("prateleira")) {
-					var wrapper = $($options.desc_wrapper);
 					$plugin.num = parseFloat($elem.text().match(/([0-9]+%|[0-9]+ %)/)[0].replace(" %","").replace("%",""));
 					$plugin.price = parseFloat($($settings.price||"").text().replace("R$ ","").replace(".","").replace(",","."));
 					$plugin.result = $plugin.price - ($plugin.price * $plugin.num/100);
 
-					wrapper.find($options.container).append($plugin.number_format($plugin.result));
-					wrapper.show();
+					$($options.container).append($plugin.number_format($plugin.result));
+					$($options.desc_wrapper).show();
 				}
 			},
 			// Calcula a promoção das prateleiras
 			calc_discount_shelf: function() {
-				if($elem.hasClass("prateleira")) {
+			
+				if(!$elem.hasClass("prateleira")) return;
+				
 					$elem.find("li").each(function() {
 						var $this, wrapper, flag_shelf; 					
 					
 						$this = $(this);
 						wrapper = $this.find($options.desc_wrapper_shelf);
 						
-						if(wrapper.length>0) {
-							$plugin.num = parseFloat($this.find(".flag").text().match(/([0-9]+%|[0-9]+ %)/)[0].replace(" %","").replace("%",""));
-							$plugin.price = parseFloat($this.find($settings.price_shelf||"").text().replace("R$ ","").replace(".","").replace(",","."));
-							$plugin.result = $plugin.price - ($plugin.price * $plugin.num/100);
+						if(wrapper.length<1) return false;
 							
-							$this.find($options.container_shelf).append($plugin.number_format($plugin.result));
-							wrapper.show();
-						}
+						$plugin.num = parseFloat($this.find(".flag").text().match(/([0-9]+%|[0-9]+ %)/)[0].replace(" %","").replace("%",""));
+						$plugin.price = parseFloat($this.find($settings.price_shelf||"").text().replace("R$ ","").replace(".","").replace(",","."));
+						$plugin.result = $plugin.price - ($plugin.price * $plugin.num/100);
+						
+						$this.find($options.container_shelf).append($plugin.number_format($plugin.result));
+						wrapper.show();
+						
 					});
-				}
+				
 			},
 			// Converte o valor a ser calculado para Unidade Monetária Nacional
 			number_format:function(val) {

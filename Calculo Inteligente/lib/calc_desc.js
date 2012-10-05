@@ -1,5 +1,5 @@
 // Calculo Inteligente
-// Version - 1.0
+// Version - 1.1
 //
 // Author: Edson Domingos Júnior - edson.domingos@vtex.com.br
 // Contributor: Maurício da Rocha - mauricio.rocha@vtex.com.br
@@ -14,6 +14,8 @@
 		var $elem, $settings, $options, $plugin;
 		
 		$elem = $(this);
+		
+		if(!$elem.length) return $elem;
 		
 		$settings = {
 			price: ".skuBestPrice", //elemento retentor do preço a ser calculado.
@@ -34,41 +36,37 @@
 				$plugin.calc_discount_product_page();
 				$plugin.calc_discount_shelf();
 			},
-			// Calcula a promoção da página de produtos
+			regex: /([0-9]).*(?=%)/,
 			calc_discount_product_page: function() {
-				if ($("body.produto").length>0 && !$elem.hasClass("prateleira")) {
-					$plugin.num = parseFloat($elem.text().match(/([0-9]+%|[0-9]+ %)/)[0].replace(" %","").replace("%",""));
-					$plugin.price = parseFloat($($settings.price||"").text().replace("R$ ","").replace(".","").replace(",","."));
+				if ($("body.produto").length>0 && !$elem.hasClass("prateleira") && $plugin.regex.test($elem.text())) {
+					var wrapper = $($options.desc_wrapper);
+					$plugin.num = parseFloat($elem.text().match($plugin.regex)[0]);
+					$plugin.price = parseFloat($($settings.price).text().replace("R$ ","").replace(".","").replace(",","."));
 					$plugin.result = $plugin.price - ($plugin.price * $plugin.num/100);
 
-					$($options.container).append($plugin.number_format($plugin.result));
-					$($options.desc_wrapper).show();
+					wrapper.find($options.container).append($plugin.number_format($plugin.result));
+					wrapper.show();
 				}
 			},
-			// Calcula a promoção das prateleiras
 			calc_discount_shelf: function() {
-			
-				if(!$elem.hasClass("prateleira")) return;
-				
+				if($elem.hasClass("prateleira")) {
 					$elem.find("li").each(function() {
 						var $this, wrapper, flag_shelf; 					
 					
 						$this = $(this);
 						wrapper = $this.find($options.desc_wrapper_shelf);
 						
-						if(wrapper.length<1) return false;
+						if(wrapper.length>0 && $plugin.regex.test($this.find(".flag").text())) {
+							$plugin.num = parseFloat($this.find(".flag").text().match(/([0-9]+%|[0-9]+ %)/)[0].replace(" %","").replace("%",""));
+							$plugin.price = parseFloat($this.find($settings.price_shelf||"").text().replace("R$ ","").replace(".","").replace(",","."));
+							$plugin.result = $plugin.price - ($plugin.price * $plugin.num/100);
 							
-						$plugin.num = parseFloat($this.find(".flag").text().match(/([0-9]+%|[0-9]+ %)/)[0].replace(" %","").replace("%",""));
-						$plugin.price = parseFloat($this.find($settings.price_shelf||"").text().replace("R$ ","").replace(".","").replace(",","."));
-						$plugin.result = $plugin.price - ($plugin.price * $plugin.num/100);
-						
-						$this.find($options.container_shelf).append($plugin.number_format($plugin.result));
-						wrapper.show();
-						
+							$this.find($options.container_shelf).append($plugin.number_format($plugin.result));
+							wrapper.show();
+						}
 					});
-				
+				}
 			},
-			// Converte o valor a ser calculado para Unidade Monetária Nacional
 			number_format:function(val) {
 				var out="",_char="", thousandsFormatted="", values, numbers, i, numLength, thousandsSeparator;
 			
@@ -91,7 +89,9 @@
 			}
 		};
 	
-		return $plugin.init();
+		$plugin.init();
+		
+		return $elem;
 	};
 
 })(jQuery);

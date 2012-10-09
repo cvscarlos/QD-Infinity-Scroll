@@ -1,3 +1,0 @@
-2000011|2000006|2000008
-
-2000000;/Produto-Exemplo-1/p|2000001;/Produto-Exemplo-1/p|2000000;/Produto-Exemplo-1/p

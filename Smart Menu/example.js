@@ -1,1 +1,0 @@
-$(function(){$(".navTopDepartament").smartMenu();});

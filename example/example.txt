@@ -1,4 +1,4 @@
-$(".prateleira[id*=ResultItems]").infinitScroll();
+$(".prateleira[id*=ResultItems]").infinityScroll();
 
 <div id="returnToTop"><a href="#"><span class="text">voltar ao</span><span class="text2">TOPO</span><span class="arrowToTop"></span></a></div>
 

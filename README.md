@@ -12,7 +12,9 @@ Faça o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arqu
 * infinityScroll.min.js
 
 Faça a chamada do arquivos JS na página:
+
 `<script type="text/javascript" src="/arquivos/infinityScroll.min.js"></script>`
 
 Execute o plugin:
-	$(".prateleira[id*=ResultItems]").infinityScroll();
+
+`$(".prateleira[id*=ResultItems]").infinityScroll();`

@@ -1,9 +1,18 @@
 #VTEX - Infinity Scroll#
->*Extensıes da plataforma VTEX s„o plugins criados por desenvolvedores de interface ou pelo VTEX Lab (LaboratÛrio de InovaÁıes da VTEX) que podem ser inseridas em sua loja. Existem extensıes gratuitas com cÛdigo aberto -  Open Source - e extensıes pagas.  Indicamos que a instalaÁ„o seja realizada pelos profissionais e empresas certificados pela VTEX. Vale ressaltar que qualquer profissional de CSS, JavaScript e HTML pode tambÈm executar esta tarefa.*
+>*Extens√µes da plataforma VTEX s√£o plugins criados por desenvolvedores de interface ou pelo VTEX Lab (Laborat√≥rio de Inova√ß√µes da VTEX) que podem ser inseridas em sua loja. Existem extens√µes gratuitas com c√≥digo aberto -  Open Source - e extens√µes pagas.  Indicamos que a instala√ß√£o seja realizada pelos profissionais e empresas certificados pela VTEX. Vale ressaltar que qualquer profissional de CSS, JavaScript e HTML pode tamb√©m executar esta tarefa.*
 
 ----------
 
 Veja este componente na [VTEX Store](http://conversionstore.com.br/index.php/extensoes/busca/carregamento-inteligente-de-imagens)
 
-#InstalaÁ„o#
-FaÁa o upload para o "Gerenciador do portal" no "Vtex Admin"
+##Instala√ß√£o##
+Fa√ßa o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arquivos:
+* img/ajax-loader2.gif
+* img/returnToTop.png
+* infinityScroll.min.js
+
+Fa√ßa a chamada do arquivos JS na p√°gina:
+`<script type="text/javascript" src="/arquivos/infinityScroll.min.js"></script>`
+
+Execute o plugin:
+	$(".prateleira[id*=ResultItems]").infinityScroll();

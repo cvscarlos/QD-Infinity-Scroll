@@ -11,7 +11,7 @@ Faça o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arqu
 * img/returnToTop.png
 * infinityScroll.min.js
 
-Faça a chamada do arquivos JS na página:
+Faça a chamada do arquivo javascript na página:
 
 ```html
 <script type="text/javascript" src="/arquivos/infinityScroll.min.js"></script>`
@@ -20,15 +20,19 @@ Faça a chamada do arquivos JS na página:
 Execute o plugin:
 
 ```javascript
-$(".prateleira[id*=ResultItems]").infinityScroll();`
+$(".prateleira[id*=ResultItems]").infinityScroll();
 ```
 
-Adicone o botão "Voltar ao topo" no HTML do template:
+Adicione o botão "Voltar ao topo" no template HTML:
 ```html
-<div id="returnToTop"><a href="#"><span class="text">voltar ao</span><span class="text2">TOPO</span><span class="arrowToTop"></span></a></div>
+<div id="returnToTop"><a href="#">
+	<span class="text">voltar ao</span>
+	<span class="text2">TOPO</span>
+	<span class="arrowToTop"></span>
+</a></div>
 ```
 
-Adicone o CSS do botão "Voltar ao topo" na folha de estilos da página:
+Adicione o CSS do botão "Voltar ao topo" na folha de estilos da página:
 ```css
 /* SCROLL INFINITO */
 #scrollLoading{border:#FFD324 solid 2px; margin:20px auto; line-height:20px; padding:5px; width:100px; background:url("/arquivos/ajax-loader2.gif") no-repeat right center #FFF6BF;}

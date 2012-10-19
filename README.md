@@ -1,5 +1,9 @@
 #VTEX - Infinity Scroll#
-*Componente para a plataforma Vtex que possibilita que as lojas tenham rolagem infinita nas páginas de vitrine sem deixar de lado a performance.*
+>*Extensões da plataforma VTEX são plugins criados por desenvolvedores de interface ou pelo VTEX Lab (Laboratório de Inovações da VTEX) que podem ser inseridas em sua loja. Existem extensões gratuitas com código aberto -  Open Source - e extensões pagas.  Indicamos que a instalação seja realizada pelos profissionais e empresas certificados pela VTEX. Vale ressaltar que qualquer profissional de CSS, JavaScript e HTML pode também executar esta tarefa.*
 
 ----------
-<p>Logo mais coloco outras informações e detalhes a respeito desta extensão</p>
+
+Veja este componente na [VTEX Store](http://conversionstore.com.br/index.php/extensoes/busca/carregamento-inteligente-de-imagens)
+
+#Instalação#
+Faça o upload para o "Gerenciador do portal" no "Vtex Admin"

@@ -14,7 +14,7 @@ Faça o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arqu
 Faça a chamada do arquivo javascript na página:
 
 ```html
-<script type="text/javascript" src="/arquivos/infinityScroll.min.js"></script>`
+<script type="text/javascript" src="/arquivos/infinityScroll.min.js"></script>
 ```
 
 Execute o plugin:

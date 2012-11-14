@@ -18,11 +18,15 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 		
 		defaults=
 		{
-			lastShelf:">div:last", // Última prateleira/vitrine na página
-			elemLoading:'<div id="scrollLoading">Carregando ... </div>', // Elemento com mensagem de carregando ao iniciar a requisição da página seguinte
-			searchUrl:null, // Opção p/ definir a URL manualmente, ficando automático apenas a paginação. A url deve terminar com "...&PageNumber="
+			// Última prateleira/vitrine na página
+			lastShelf:">div:last",
+			// Elemento com mensagem de carregando ao iniciar a requisição da página seguinte
+			elemLoading:'<div id="scrollLoading">Carregando ... </div>',
+			// Opção p/ definir a URL manualmente, ficando automático apenas a paginação. A url deve terminar com "...&PageNumber="
+			searchUrl:null,
 			// Objeto jQuery com o botão de voltar ao topo
 			returnToTop:$('<div id="returnToTop"><a href="#"><span class="text">voltar ao</span><span class="text2">TOPO</span><span class="arrowToTop"></span></a></div>'),
+			// Callback quando uma requisição ajax da prateleira é completada
 			callback:function(){},
 			// Cálculo do tamanho do footer para que uam nova página seja chamada antes do usuário chegar ao "final" do site
 			getShelfHeight:function()

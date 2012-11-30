@@ -1,8 +1,8 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius
-* @version 3.0
-* @date 2012-11-30
+* @version 2.5
+* @date 2012-10-18
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
 (function($){
@@ -32,17 +32,9 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			getShelfHeight:function()
 			{
 				return ($this.scrollTop()+$this.height());
-			},
-			// Opção para fazer a paginção manualmente, uma nova página só é chamada quando executado o comando dentro desta função
-			// Ela recebe como parâmetro: 1 função que chama a próxima página (caso ela exista)
-			paginate:null,
-			// Esta função é quem controla onde o conteúdo será inserido. Ela recebe como parâmetro: O ùltimo bloco inserido e os dados da nova requisição AJAX
-			insertContent:function(currentItems,ajaxData)
-			{
-				currentItems.after(ajaxData);
 			}
 		};
-		options=jQuery.extend({},defaults, opts);
+		options=jQuery.extend(defaults, opts);
 		$this=jQuery(this);
 		$empty=jQuery("");
 			
@@ -120,10 +112,10 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			},
 			infinityScroll:function()
 			{
-				var elementPages,pages,searchUrl,currentStatus,fn;
-				
-				elementPages=jQuery(".pager[id*=PagerTop]:first").attr("id")||"";
+				var elementPages=jQuery(".pager[id*=PagerTop]:first").attr("id")||"";
 				if(""===elementPages){log("Não foi possível localizar o div.pages contendo o atributo id*=PagerTop");return "";}
+				
+				var	pages,searchUrl,currentStatus;
 				
 				pages=window["pagecount_"+elementPages.split("_").pop()];
 				searchUrl=(null!==options.searchUrl)?options.searchUrl:fns.getSearchUrl();
@@ -131,60 +123,46 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 					
 				// Reportando erros
 				if("undefined"===typeof pages) log("Não foi possível localizar quantidade de páginas.\n Tente adicionar o .js ao final da página. \n[Método: infinityScroll]");
-				
-				fn=function()
-				{
-					if(!currentStatus) return;
 					
-					var currentItems=$this.find(options.lastShelf);
-					if(currentItems.length<1){log("Última Prateleira/Vitrine não encontrada \n ("+currentItems.selector+")"); return false;}
-					
-					currentItems.after(elemLoading);
-					currentStatus=false;
-					jQuery.ajax({
-						url: searchUrl+currentPage,
-						success:function(data)
+				$window.bind("scroll",function(){
+					if(currentPage<=pages && moreResults)
+					{
+						if(($window.scrollTop()+$window.height())>=(options.getShelfHeight()) && currentStatus)
 						{
-							if(data.trim().length<1)
-							{
-								moreResults=false;
-								log("Não existem mais resultados a partir da página: "+currentPage,"Aviso");
-							}
-							else
-								options.insertContent(currentItems,data);
-							currentStatus=true;
-							elemLoading.remove();
-						},
-						error:function()
-						{
-							log("Houve um erro na requisição Ajax de uma nova página.");
-						},
-						complete: function(jqXHR, textStatus)
-						{
-							options.callback();
+							var currentItems=$this.find(options.lastShelf);
+							if(currentItems.length<1){log("Última Prateleira/Vitrine não encontrada \n ("+currentItems.selector+")"); return false;}
+							
+							currentItems.after(elemLoading);
+							currentStatus=false;
+							jQuery.ajax({
+								url: searchUrl+currentPage,
+								success:function(data)
+								{
+									if(data.trim().length<1)
+									{
+										moreResults=false;
+										log("Não existem mais resultados a partir da página: "+currentPage,"Aviso");
+									}
+									else
+										currentItems.after(data);
+									currentStatus=true;
+									elemLoading.remove();
+								},
+								error:function()
+								{
+									log("Houve um erro na requisição Ajax de uma nova página.");
+								},
+								complete: function(jqXHR, textStatus)
+								{
+									options.callback();
+								}
+							});
+							currentPage++;
 						}
-					});
-					currentPage++;
-				};
-				
-				
-				if(typeof options.paginate === "function")
-					options.paginate(
-						function(){
-							if(currentPage<=pages && moreResults)
-								fn();
-						}
-					);
-				else
-					$window.bind("scroll",function(){
-						if(currentPage<=pages && moreResults)
-						{
-							if(($window.scrollTop()+$window.height())>=(options.getShelfHeight()))
-								fn();
-						}
-						else
-							return false;
-					});
+					}
+					else
+						return false;
+				});
 			}
 		};
 

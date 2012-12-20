@@ -1,8 +1,8 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius
-* @version 3.1
-* @date 2012-12-20
+* @version 3.0
+* @date 2012-11-30
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
 (function($){
@@ -122,20 +122,16 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			{
 				var elementPages,pages,searchUrl,currentStatus,fn;
 				
+				elementPages=jQuery(".pager[id*=PagerTop]:first").attr("id")||"";
+				if(""===elementPages){log("Não foi possível localizar o div.pages contendo o atributo id*=PagerTop");return "";}
+				
+				pages=window["pagecount_"+elementPages.split("_").pop()];
 				searchUrl=(null!==options.searchUrl)?options.searchUrl:fns.getSearchUrl();
 				currentStatus=true;
-				
-				// Quantidade de páginas obtidas na busca
-				pages=9999999999999;
-				elementPages=jQuery(".pager[id*=PagerTop]:first").attr("id")||"";
-				if(""===elementPages){log("Não foi possível localizar o div.pages contendo o atributo id*=PagerTop","Alerta");}
-				else
-				{
-					pages=window["pagecount_"+elementPages.split("_").pop()];
-					// Reportando erros
-					if("undefined"===typeof pages) log("Não foi possível localizar quantidade de páginas.\n Tente adicionar o .js ao final da página. \n[Método: infinityScroll]");
-				}
 					
+				// Reportando erros
+				if("undefined"===typeof pages) log("Não foi possível localizar quantidade de páginas.\n Tente adicionar o .js ao final da página. \n[Método: infinityScroll]");
+				
 				fn=function()
 				{
 					if(!currentStatus) return;

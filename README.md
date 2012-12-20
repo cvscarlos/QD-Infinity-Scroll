@@ -45,7 +45,7 @@ $(".prateleira[id*=ResultItems]").infinityScroll({
 	{
 		return ($this.scrollTop()+$this.height());
 	},
-	// Opção para fazer a paginção manualmente, uma nova página só é chamada quando executado o comando dentro desta função
+	// Opção para fazer a paginação manualmente, uma nova página só é chamada quando executado o comando dentro desta função
 	// Ela recebe como parâmetro: 1 função que chama a próxima página (caso ela exista)
 	paginate:null,
 	// Esta função é quem controla onde o conteúdo será inserido. Ela recebe como parâmetro: O ùltimo bloco inserido e os dados da nova requisição AJAX

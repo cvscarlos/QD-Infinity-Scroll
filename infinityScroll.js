@@ -1,8 +1,8 @@
 /**
 * Infinity Scroll
-* @author Carlos Vinicius
-* @version 3.1
-* @date 2012-12-20
+* @author Carlos Vinicius [Quatro Digital]
+* @version 3.2
+* @date 2013-02-08
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
 (function($){
@@ -120,7 +120,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			},
 			infinityScroll:function()
 			{
-				var elementPages,pages,searchUrl,currentStatus,fn;
+				var elementPages,pages,searchUrl,currentStatus,fn,i;
 				
 				searchUrl=(null!==options.searchUrl)?options.searchUrl:fns.getSearchUrl();
 				currentStatus=true;
@@ -128,12 +128,24 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 				// Quantidade de páginas obtidas na busca
 				pages=9999999999999;
 				elementPages=jQuery(".pager[id*=PagerTop]:first").attr("id")||"";
-				if(""===elementPages){log("Não foi possível localizar o div.pages contendo o atributo id*=PagerTop","Alerta");}
-				else
-				{
+				if(""===elementPages)
+					log("Não foi possível localizar o div.pages contendo o atributo id*=PagerTop","Alerta");
+				else{
 					pages=window["pagecount_"+elementPages.split("_").pop()];
+					if("undefined"===typeof pages){
+						// Buscando a quantidade de página dentro de "window"
+						for(i in window)
+							if(/pagecount_[0-9]+/.test(i))
+							{
+								pages = window[i];
+								break;
+							}
+					}
+						
 					// Reportando erros
-					if("undefined"===typeof pages) log("Não foi possível localizar quantidade de páginas.\n Tente adicionar o .js ao final da página. \n[Método: infinityScroll]");
+					if("undefined"===typeof pages)
+						pages=9999999999999;
+						// log("Não foi possível localizar quantidade de páginas.\n Tente adicionar o .js ao final da página. \n[Método: infinityScroll]","Alerta");
 				}
 					
 				fn=function()

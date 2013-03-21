@@ -109,7 +109,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 						url=preg.exec(content);
 						return false;
 					} else if (content.search(/\/paginaprateleira\?/i) > -1) {
-						url=preg.exec(content).replace(/paginaprateleira/,'buscapagina');
+						url=pregColecao.exec(content).replace(/paginaprateleira/,'buscapagina');
 						return false;
 					}
 				});

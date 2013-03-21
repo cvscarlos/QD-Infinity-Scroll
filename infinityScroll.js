@@ -99,13 +99,17 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			},
 			getSearchUrl:function()
 			{
-				var url, content, preg;
+				var url, content, preg, pregColecao;
 				jQuery("script:not([src])").each(function(){
 					content=jQuery(this)[0].innerHTML;
 					preg=/\/buscapagina\?.+&PageNumber=/i;
+					pregColecao = /\/paginaprateleira\?.+PageNumber=/i;
 					if(content.search(/\/buscapagina\?/i)>-1)
 					{
 						url=preg.exec(content);
+						return false;
+					} else if (content.search(/\/paginaprateleira\?/i) > -1) {
+						url=preg.exec(content).replace(/paginaprateleira/,'buscapagina');
 						return false;
 					}
 				});

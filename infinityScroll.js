@@ -109,13 +109,15 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 						url=preg.exec(content);
 						return false;
 					} else if (content.search(/\/paginaprateleira\?/i) > -1) {
-						url=pregColecao.exec(content).replace(/paginaprateleira/,'buscapagina');
+						url=pregColecao.exec(content);
 						return false;
 					}
 				});
 
 				if(typeof(url)!=="undefined" && typeof(url[0])!=="undefined")
-					return url[0];
+					if (url[0].search(/\/paginaprateleira\?/i) > -1) {
+						return url[0].replace(/paginaprateleira/,'buscapagina');
+					} else return url[0];
 				else
 				{
 					log("Não foi possível localizar a url de busca da página.\n Tente adicionar o .js ao final da página. \n[Método: getSearchUrl]");

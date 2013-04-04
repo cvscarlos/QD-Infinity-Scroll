@@ -1,42 +1,42 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.2
-* @date 2013-02-08
+* @version 3.3
+* @date 2013-04-04
+* @lastupdateby: Jefferson Rafael Kozerski - @jeff_drumgod
 */
-if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
 (function($){
 	jQuery.fn.infinityScroll=function(opts)
 	{
 		var defaults,log,extTitle,options,$this,$empty,$window, $document, toTopE, elemLoading, moreResults, currentPage;
-		
+
 		extTitle="Infinity Scroll";
 		log=function(msg,type){
 			if(typeof console=="object")
 				console.log("!\n["+extTitle+" - "+(type||"Erro")+"] "+msg);
 		};
-		
+
 		defaults=
 		{
-			// ⁄ltima prateleira/vitrine na p·gina
+			// √öltima prateleira/vitrine na p√°gina
 			lastShelf:">div:last",
-			// Elemento com mensagem de carregando ao iniciar a requisiÁ„o da p·gina seguinte
+			// Elemento com mensagem de carregando ao iniciar a requisi√ß√£o da p√°gina seguinte
 			elemLoading:'<div id="scrollLoading">Carregando ... </div>',
-			// OpÁ„o p/ definir a URL manualmente, ficando autom·tico apenas a paginaÁ„o. A url deve terminar com "...&PageNumber="
+			// Op√ß√£o p/ definir a URL manualmente, ficando autom√°tico apenas a pagina√ß√£o. A url deve terminar com "...&PageNumber="
 			searchUrl:null,
-			// Objeto jQuery com o bot„o de voltar ao topo
+			// Objeto jQuery com o bot√£o de voltar ao topo
 			returnToTop:$('<div id="returnToTop"><a href="#"><span class="text">voltar ao</span><span class="text2">TOPO</span><span class="arrowToTop"></span></a></div>'),
-			// Callback quando uma requisiÁ„o ajax da prateleira È completada
+			// Callback quando uma requisi√ß√£o ajax da prateleira √© completada
 			callback:function(){},
-			// C·lculo do tamanho do footer para que uam nova p·gina seja chamada antes do usu·rio chegar ao "final" do site
+			// C√°lculo do tamanho do footer para que uam nova p√°gina seja chamada antes do usu√°rio chegar ao "final" do site
 			getShelfHeight:function()
 			{
 				return ($this.scrollTop()+$this.height());
 			},
-			// OpÁ„o para fazer a paginaÁ„o manualmente, uma nova p·gina sÛ È chamada quando executado o comando dentro desta funÁ„o
-			// Ela recebe como par‚metro: 1 funÁ„o que chama a prÛxima p·gina (caso ela exista)
+			// Op√ß√£o para fazer a pagina√ß√£o manualmente, uma nova p√°gina s√≥ √© chamada quando executado o comando dentro desta fun√ß√£o
+			// Ela recebe como par√¢metro: 1 fun√ß√£o que chama a pr√≥xima p√°gina (caso ela exista)
 			paginate:null,
-			// Esta funÁ„o È quem controla onde o conte˙do ser· inserido. Ela recebe como par‚metro: O ˘ltimo bloco inserido e os dados da nova requisiÁ„o AJAX
+			// Esta fun√ß√£o √© quem controla onde o conte√∫do ser√° inserido. Ela recebe como par√¢metro: O √πltimo bloco inserido e os dados da nova requisi√ß√£o AJAX
 			insertContent:function(currentItems,ajaxData)
 			{
 				currentItems.after(ajaxData);
@@ -45,7 +45,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 		options=jQuery.extend({},defaults, opts);
 		$this=jQuery(this);
 		$empty=jQuery("");
-			
+
 		if($this.length<1)
 			return $this;
 
@@ -55,43 +55,43 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			log("Identifiquei que a seletor informado ("+$this.selector+") retornou "+$this.length+" elementos.\n Como correto, selecionado o primeiro com o id: #"+($this.filter("[id^=ResultItems]:first").attr("id")||"!Not Found"),"Aviso");
 			$this=$this.filter("[id^=ResultItems]:first");
 		}
-		
+
 		// tentando adivinhar se esta pegando o elemento correto da prateleira
 		if(!$this.filter("[id^=ResultItems]").length)
-			log("Certifique-se que esta selecionando o elemento correto.\n O plugin espera que o elemento seja o que contÈm o id: #"+jQuery("div[id^=ResultItems]").attr("id")||"!Not Found","Aviso");
+			log("Certifique-se que esta selecionando o elemento correto.\n O plugin espera que o elemento seja o que cont√©m o id: #"+jQuery("div[id^=ResultItems]").attr("id")||"!Not Found","Aviso");
 		if($this.parent().filter("[id^=ResultItems]").length)
 		{
-			log("Identifiquei que o seletor pai do elemento que vocÍ informou È o #"+(jQuery("div[id^=ResultItems]").attr("id")||"!Not Found")+".\n Como forma de corrigir esse problema de seleÁ„o de elemento, assumirei prateleira correta.","Aviso");
+			log("Identifiquei que o seletor pai do elemento que voc√™ informou √© o #"+(jQuery("div[id^=ResultItems]").attr("id")||"!Not Found")+".\n Como forma de corrigir esse problema de sele√ß√£o de elemento, assumirei prateleira correta.","Aviso");
 			$this=$this.parent();
 		}
-		
-		// Adicionando bot„o de voltar ao topo
+
+		// Adicionando bot√£o de voltar ao topo
 		$("body").append(options.returnToTop);
-		
+
 		$window=jQuery(window);
 		$document=jQuery(document);
 		toTopE=$(options.returnToTop);
 		elemLoading=jQuery(options.elemLoading);
 		moreResults=true;
 		currentPage=2;
-		
+
 		var fns=
 		{
 			scrollToTop:function()
 			{
 				var windowH=$window.height();
-				
+
 				$window.bind("resize",function(){
 					windowH=$window.height();
 				});
-				
+
 				$window.bind("scroll",function(){
 					if($document.scrollTop()>(windowH))
 						toTopE.stop(true).fadeTo(300,1,function(){toTopE.show();});
 					else
 						toTopE.stop(true).fadeTo(300,0,function(){toTopE.hide();});
 				});
-				
+
 				toTopE.find("a").bind("click",function(){
 					jQuery("html,body").animate({scrollTop:0},"slow");
 					return false;
@@ -114,26 +114,26 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 					return url[0];
 				else
 				{
-					log("N„o foi possÌvel localizar a url de busca da p·gina.\n Tente adicionar o .js ao final da p·gina. \n[MÈtodo: getSearchUrl]");
+					log("N√£o foi poss√≠vel localizar a url de busca da p√°gina.\n Tente adicionar o .js ao final da p√°gina. \n[M√©todo: getSearchUrl]");
 					return "";
 				}
 			},
 			infinityScroll:function()
 			{
 				var elementPages,pages,searchUrl,currentStatus,fn,i;
-				
+
 				searchUrl=(null!==options.searchUrl)?options.searchUrl:fns.getSearchUrl();
 				currentStatus=true;
-				
-				// Quantidade de p·ginas obtidas na busca
+
+				// Quantidade de p√°ginas obtidas na busca
 				pages=9999999999999;
 				elementPages=jQuery(".pager[id*=PagerTop]:first").attr("id")||"";
 				if(""===elementPages)
-					log("N„o foi possÌvel localizar o div.pages contendo o atributo id*=PagerTop","Alerta");
+					log("N√£o foi poss√≠vel localizar o div.pages contendo o atributo id*=PagerTop","Alerta");
 				else{
 					pages=window["pagecount_"+elementPages.split("_").pop()];
 					if("undefined"===typeof pages){
-						// Buscando a quantidade de p·gina dentro de "window"
+						// Buscando a quantidade de p√°gina dentro de "window"
 						for(i in window)
 							if(/pagecount_[0-9]+/.test(i))
 							{
@@ -141,30 +141,30 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 								break;
 							}
 					}
-						
+
 					// Reportando erros
 					if("undefined"===typeof pages)
 						pages=9999999999999;
-						// log("N„o foi possÌvel localizar quantidade de p·ginas.\n Tente adicionar o .js ao final da p·gina. \n[MÈtodo: infinityScroll]","Alerta");
+						// log("N√£o foi poss√≠vel localizar quantidade de p√°ginas.\n Tente adicionar o .js ao final da p√°gina. \n[M√©todo: infinityScroll]","Alerta");
 				}
-					
+
 				fn=function()
 				{
 					if(!currentStatus) return;
-					
+
 					var currentItems=$this.find(options.lastShelf);
-					if(currentItems.length<1){log("⁄ltima Prateleira/Vitrine n„o encontrada \n ("+currentItems.selector+")"); return false;}
-					
+					if(currentItems.length<1){log("√öltima Prateleira/Vitrine n√£o encontrada \n ("+currentItems.selector+")"); return false;}
+
 					currentItems.after(elemLoading);
 					currentStatus=false;
 					jQuery.ajax({
 						url: searchUrl+currentPage,
 						success:function(data)
 						{
-							if(data.trim().length<1)
+							if($.trim(data).length<1)
 							{
 								moreResults=false;
-								log("N„o existem mais resultados a partir da p·gina: "+currentPage,"Aviso");
+								log("N√£o existem mais resultados a partir da p√°gina: "+currentPage,"Aviso");
 							}
 							else
 								options.insertContent(currentItems,data);
@@ -173,7 +173,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 						},
 						error:function()
 						{
-							log("Houve um erro na requisiÁ„o Ajax de uma nova p·gina.");
+							log("Houve um erro na requisi√ß√£o Ajax de uma nova p√°gina.");
 						},
 						complete: function(jqXHR, textStatus)
 						{
@@ -182,8 +182,8 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 					});
 					currentPage++;
 				};
-				
-				
+
+
 				if(typeof options.paginate === "function")
 					options.paginate(
 						function(){

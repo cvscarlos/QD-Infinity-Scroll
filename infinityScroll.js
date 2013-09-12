@@ -1,23 +1,30 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.2
-* @date 2013-02-08
+* @version 3.4
+* @contributor https://github.com/freires (https://github.com/caljp13/VTEX-Infinity-Scroll/pull/2)
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
-(function($){
-	jQuery.fn.infinityScroll=function(opts)
-	{
-		var defaults,log,extTitle,options,$this,$empty,$window, $document, toTopE, elemLoading, moreResults, currentPage;
+(function(){
+	"use strict";
+	var $ = jQuery;
+	
+	if(typeof $.fn.QD_infinityScroll === "function") return;
+
+	// Iniciando as variáveis públicas do infinity scroll
+	window._QuatroDigital_InfinityScroll = window._QuatroDigital_InfinityScroll || {};
+
+	$.fn.QD_infinityScroll = function(opts){
+		var defaults,log,extTitle,options,$this,$empty,$window, $document, toTopE, elemLoading, $public;
 		
+		// Reduzindo o nome da variável publica
+		$public = window._QuatroDigital_InfinityScroll;
+
+		// Função de log
 		extTitle="Infinity Scroll";
-		log=function(msg,type){
-			if(typeof console=="object")
-				console.log("!\n["+extTitle+" - "+(type||"Erro")+"] "+msg);
-		};
+		var log=function(a,b){if("object"===typeof console){var c="object"===typeof a;"undefined"===typeof b||"alerta"!==b.toLowerCase()&&"aviso"!==b.toLowerCase()?"undefined"!==typeof b&&"info"===b.toLowerCase()?c?console.info("["+extTitle+"]\n",a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]):console.info("["+extTitle+"]\n"+a):c?console.error("["+extTitle+"]\n",a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]):console.error("["+extTitle+"]\n"+a):c?console.warn("["+extTitle+"]\n",a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]):console.warn("["+extTitle+"]\n"+a)}};
 		
-		defaults=
-		{
+		defaults = {
 			// Última prateleira/vitrine na página
 			lastShelf:">div:last",
 			// Elemento com mensagem de carregando ao iniciar a requisição da página seguinte
@@ -29,16 +36,14 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			// Callback quando uma requisição ajax da prateleira é completada
 			callback:function(){},
 			// Cálculo do tamanho do footer para que uam nova página seja chamada antes do usuário chegar ao "final" do site
-			getShelfHeight:function()
-			{
-				return ($this.scrollTop()+$this.height());
+			getShelfHeight : function(){
+				return ($this.scrollTop() + $this.height());
 			},
 			// Opção para fazer a paginação manualmente, uma nova página só é chamada quando executado o comando dentro desta função
 			// Ela recebe como parâmetro: 1 função que chama a próxima página (caso ela exista)
 			paginate:null,
 			// Esta função é quem controla onde o conteúdo será inserido. Ela recebe como parâmetro: O ùltimo bloco inserido e os dados da nova requisição AJAX
-			insertContent:function(currentItems,ajaxData)
-			{
+			insertContent : function(currentItems, ajaxData){
 				currentItems.after(ajaxData);
 			}
 		};
@@ -72,138 +77,121 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 		$document=jQuery(document);
 		toTopE=$(options.returnToTop);
 		elemLoading=jQuery(options.elemLoading);
-		moreResults=true;
-		currentPage=2;
+		$public.moreResults = true;
+		$public.currentPage = 2;
 		
-		var fns=
-		{
+		var fns = {
 			scrollToTop:function()
 			{
 				var windowH=$window.height();
 				
-				$window.bind("resize",function(){
+				$window.bind("resize.QD_infinityScroll",function(){
 					windowH=$window.height();
 				});
 				
-				$window.bind("scroll",function(){
+				$window.bind("scroll.QD_infinityScroll",function(){
 					if($document.scrollTop()>(windowH))
 						toTopE.stop(true).fadeTo(300,1,function(){toTopE.show();});
 					else
 						toTopE.stop(true).fadeTo(300,0,function(){toTopE.hide();});
 				});
 				
-				toTopE.find("a").bind("click",function(){
+				toTopE.find("a").bind("click.QD_infinityScroll",function(){
 					jQuery("html,body").animate({scrollTop:0},"slow");
 					return false;
 				});
 			},
-			getSearchUrl:function()
-			{
-				var url, content, preg, pregColecao;
+			getSearchUrl:function(){
+				var url, content, preg, pregCollection;
 				jQuery("script:not([src])").each(function(){
-					content=jQuery(this)[0].innerHTML;
-					preg=/\/buscapagina\?.+&PageNumber=/i;
-					pregColecao = /\/paginaprateleira\?.+PageNumber=/i;
-					if(content.search(/\/buscapagina\?/i)>-1)
-					{
-						url=preg.exec(content);
+					content = jQuery(this)[0].innerHTML;
+					preg = /\/buscapagina\?.+&PageNumber=/i;
+					pregCollection = /\/paginaprateleira\?.+PageNumber=/i;
+					if(content.indexOf("buscapagina") > -1){
+						url = preg.exec(content);
 						return false;
-					} else if (content.search(/\/paginaprateleira\?/i) > -1) {
-						url=pregColecao.exec(content);
+					} else if (content.indexOf("paginaprateleira") > -1) {
+						url = pregCollection.exec(content);
 						return false;
 					}
 				});
 
-				if(typeof(url)!=="undefined" && typeof(url[0])!=="undefined")
-					if (url[0].search(/\/paginaprateleira\?/i) > -1) {
-						return url[0].replace(/paginaprateleira/,'buscapagina');
-					} else return url[0];
-				else
-				{
+				if(typeof url !== "undefined" && typeof url[0] !== "undefined")
+					return url[0].replace("paginaprateleira",'buscapagina');
+				else {
 					log("Não foi possível localizar a url de busca da página.\n Tente adicionar o .js ao final da página. \n[Método: getSearchUrl]");
 					return "";
 				}
 			},
-			infinityScroll:function()
-			{
-				var elementPages,pages,searchUrl,currentStatus,fn,i;
+			infinityScroll : function(){
+				var elementPages,fn,i;
 				
-				searchUrl=(null!==options.searchUrl)?options.searchUrl:fns.getSearchUrl();
-				currentStatus=true;
+				$public.searchUrl = (null !== options.searchUrl) ? options.searchUrl : fns.getSearchUrl();
+				$public.currentStatus = true;
 				
 				// Quantidade de páginas obtidas na busca
-				pages=9999999999999;
-				elementPages=jQuery(".pager[id*=PagerTop]:first").attr("id")||"";
-				if(""===elementPages)
-					log("Não foi possível localizar o div.pages contendo o atributo id*=PagerTop","Alerta");
-				else{
-					pages=window["pagecount_"+elementPages.split("_").pop()];
-					if("undefined"===typeof pages){
-						// Buscando a quantidade de página dentro de "window"
+				// Obtendo o elemento no HTML que informa o numero que completa o nome da variável
+				elementPages = $(".pager[id*=PagerTop]:first").attr("id")||"";
+				if(elementPages !== ""){
+					// Obtendo a quantidade de páginas
+					$public.pages = window["pagecount_" + elementPages.split("_").pop()];
+					if(typeof $public.pages === "undefined"){
+						// Buscando a quantidade de página dentro de "window" caso não tenha encontrado a variável com o ID obtido no elemento de paginação
 						for(i in window)
-							if(/pagecount_[0-9]+/.test(i))
-							{
-								pages = window[i];
+							if(/pagecount_[0-9]+/.test(i)){
+								$public.pages = window[i];
 								break;
 							}
 					}
-						
-					// Reportando erros
-					if("undefined"===typeof pages)
-						pages=9999999999999;
-						// log("Não foi possível localizar quantidade de páginas.\n Tente adicionar o .js ao final da página. \n[Método: infinityScroll]","Alerta");
 				}
+				// Caso não seja possível obter uma página, é definido um valor gigantesco para que a parada seja feita automáticamente
+				if(typeof $public.pages === "undefined")
+					$public.pages = 9999999999999;
 					
-				fn=function()
-				{
-					if(!currentStatus) return;
+				fn = function(){
+					if(!$public.currentStatus) return;
 					
-					var currentItems=$this.find(options.lastShelf);
-					if(currentItems.length<1){log("Última Prateleira/Vitrine não encontrada \n ("+currentItems.selector+")"); return false;}
+					var currentItems = $this.find(options.lastShelf);
+					if(currentItems.length < 1){ log("Última Prateleira/Vitrine não encontrada \n (" + currentItems.selector + ")"); return false; }
 					
 					currentItems.after(elemLoading);
-					currentStatus=false;
-					jQuery.ajax({
-						url: searchUrl+currentPage,
-						success:function(data)
-						{
-							if(data.trim().length<1)
-							{
-								moreResults=false;
-								log("Não existem mais resultados a partir da página: "+currentPage,"Aviso");
+					$public.currentStatus = false;
+					var requestedPage = $public.currentPage;
+					$.ajax({
+						url : $public.searchUrl.replace(/pagenumber\=[0-9]*/i, "PageNumber=" + $public.currentPage),
+						dataType : "html",
+						success : function(data){
+							if(data.trim().length < 1){
+								$public.moreResults = false;
+								log("Não existem mais resultados a partir da página: " + requestedPage, "Aviso");
 							}
 							else
-								options.insertContent(currentItems,data);
-							currentStatus=true;
+								options.insertContent(currentItems ,data);
+							$public.currentStatus = true;
 							elemLoading.remove();
 						},
-						error:function()
-						{
+						error : function(){
 							log("Houve um erro na requisição Ajax de uma nova página.");
 						},
-						complete: function(jqXHR, textStatus)
-						{
+						complete : function(jqXHR, textStatus){
 							options.callback();
 						}
 					});
-					currentPage++;
+					$public.currentPage++;
 				};
 				
 				
 				if(typeof options.paginate === "function")
 					options.paginate(
 						function(){
-							if(currentPage<=pages && moreResults)
+							if($public.currentPage <= $public.pages && $public.moreResults)
 								fn();
 						}
 					);
 				else
-					$window.bind("scroll",function(){
-						if(currentPage<=pages && moreResults)
-						{
-							if(($window.scrollTop()+$window.height())>=(options.getShelfHeight()))
-								fn();
-						}
+					$window.bind("scroll.QD_infinityScroll_paginate",function(){
+						if($public.currentPage <= $public.pages && $public.moreResults && ($window.scrollTop() + $window.height()) >= options.getShelfHeight())
+							fn();
 						else
 							return false;
 					});

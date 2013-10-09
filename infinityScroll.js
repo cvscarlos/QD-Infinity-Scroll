@@ -1,7 +1,7 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.4
+* @version 3.5
 * @contributor https://github.com/freires (https://github.com/caljp13/VTEX-Infinity-Scroll/pull/2)
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
@@ -73,10 +73,10 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 		// Adicionando botão de voltar ao topo
 		$("body").append(options.returnToTop);
 		
-		$window=jQuery(window);
-		$document=jQuery(document);
-		toTopE=$(options.returnToTop);
-		elemLoading=jQuery(options.elemLoading);
+		$window =$(window);
+		$document = $(document);
+		$public.toTopE = $(options.returnToTop);
+		elemLoading = $(options.elemLoading);
 		$public.moreResults = true;
 		$public.currentPage = 2;
 		
@@ -91,12 +91,12 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 				
 				$window.bind("scroll.QD_infinityScroll",function(){
 					if($document.scrollTop()>(windowH))
-						toTopE.stop(true).fadeTo(300,1,function(){toTopE.show();});
+						$public.toTopE.stop(true).fadeTo(300,1,function(){$public.toTopE.show();});
 					else
-						toTopE.stop(true).fadeTo(300,0,function(){toTopE.hide();});
+						$public.toTopE.stop(true).fadeTo(300,0,function(){$public.toTopE.hide();});
 				});
 				
-				toTopE.find("a").bind("click.QD_infinityScroll",function(){
+				$public.buttonToTop = $public.toTopE.find("a").bind("click.QD_infinityScroll",function(){
 					jQuery("html,body").animate({scrollTop:0},"slow");
 					return false;
 				});

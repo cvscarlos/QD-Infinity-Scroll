@@ -1,7 +1,7 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.8
+* @version 3.9
 * @license MIT
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
@@ -89,28 +89,22 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 				var windowH, scrollTimeout, scrollHandler;
 				windowH = $window.height();
 
-				$htmlWrapper.bind("resize.QD_infinityScroll", function () {
+				$window.bind("resize.QD_infinityScroll", function () {
 					windowH = $window.height();
 				});
 
 				scrollTimeout = null;
 				scrollHandler = function(){
-					if ($document.scrollTop() > (windowH))
-						$public.toTopE.stop(true).fadeTo(300, 1, function () {
-							$public.toTopE.show();
-						});
-					else
-						$public.toTopE.stop(true).fadeTo(300, 0, function () {
-							$public.toTopE.hide();
-						});
+					if ($document.scrollTop() > windowH) {
+						if (!document.body.getAttribute("data-qd-infinity-scroll"))
+							document.body.setAttribute("data-qd-infinity-scroll", 1);
+					} else if (document.body.getAttribute("data-qd-infinity-scroll"))
+						document.body.removeAttribute("data-qd-infinity-scroll");
 				};
 
 				$htmlWrapper.bind("scroll.QD_infinityScroll", function () {
-					if (scrollTimeout) {
-						clearTimeout(scrollTimeout);
-						scrollTimeout = null;
-					}
-					scrollTimeout = setTimeout(scrollHandler, 50);
+					clearTimeout(scrollTimeout);
+					scrollTimeout = setTimeout(scrollHandler, 20);
 				});
 
 				$public.buttonToTop = $public.toTopE.find("a").bind("click.QD_infinityScroll", function () {
@@ -218,11 +212,8 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 							fn();
 					};
 					$htmlWrapper.bind("scroll.QD_infinityScroll_paginate", function () {
-						if (scrollTimeout) {
-							clearTimeout(scrollTimeout);
-							scrollTimeout = null;
-						}
-						scrollTimeout = setTimeout(scrollHandler, 50);
+						clearTimeout(scrollTimeout);
+						scrollTimeout = setTimeout(scrollHandler, 70);
 					});
 				}
 			}

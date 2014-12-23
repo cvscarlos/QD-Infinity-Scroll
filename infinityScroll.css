@@ -10,3 +10,4 @@ body .pager.bottom{display:none;}
 #returnToTop .text{display:block;}
 #returnToTop .text2{float:left; font-size:18px; font-weight:normal;}
 #returnToTop .arrowToTop{background:url("/arquivos/returnToTop.png") no-repeat #A21279; width:32px; height:32px; position:absolute; top:2px; right:0; display:block; float:right;}
+body[data-qd-infinity-scroll] #returnToTop{display:block;}

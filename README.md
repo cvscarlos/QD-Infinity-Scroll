@@ -13,16 +13,16 @@
 ----------
 ##Instalação
 Faça o upload para o "Gerenciador do portal" no "Vtex Admin" dos seguintes arquivos:
-* img/ajax-loader2.gif
-* img/returnToTop.png
-* infinityScroll.min.js
-* infinityScroll.css
+* img/ajax-loader2.gif *(sugestão)*
+* img/returnToTop.png *(sugestão)*
+* QD_infinityScroll.min.js
+* infinityScroll.css *(sugestão)*
 
 Faça a chamada do arquivo javascript na página:
 
 ```html
 <link rel="stylesheet" type="text/css" href="/arquivos/infinityScroll.css" />
-<script type="text/javascript" src="/arquivos/infinityScroll.min.js"></script>
+<script type="text/javascript" src="/arquivos/QD_infinityScroll.min.js"></script>
 ```
 
 Execute o plugin:
@@ -33,7 +33,7 @@ $(".prateleira[id*=ResultItems]").QD_infinityScroll();
 
 ###Avançado
 
-Configurações completas do plugin (lista atualizada em 10/02/2014):
+Configurações completas do plugin (lista atualizada em 23/12/2014):
 ```javascript
 $(".prateleira[id*=ResultItems]").QD_infinityScroll({
 	// Última prateleira/vitrine na página
@@ -65,3 +65,21 @@ $(".prateleira[id*=ResultItems]").QD_infinityScroll({
 	}
 });
 ```
+
+
+----------
+##Eventos
+
+###$(window).bind("QuatroDigital.cp_thumbsWrapperAdd", handler);
+
+Esse evento é disparado após as miniaturas de um produto estarem prontas, logo, isso ocorrerá uma vez para cada produto da vitrine.
+
+**Parametros:**
+
+1. Objeto de [evento do jQuery](http://api.jquery.com/Types/#Event).
+
+
+----------
+##Contribuidores
+
+ * [Pedro Freires](https://github.com/caljp13/QD-Infinity-Scroll/pull/2)

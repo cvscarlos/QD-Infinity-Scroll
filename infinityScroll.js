@@ -1,9 +1,8 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.7
-* @License MIT
-* @contributor https://github.com/freires (https://github.com/caljp13/VTEX-Infinity-Scroll/pull/2)
+* @version 3.8
+* @license MIT
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
 (function ($) {
@@ -197,6 +196,8 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 						},
 						complete: function (jqXHR, textStatus) {
 							options.callback();
+
+							$(window).trigger("QuatroDigital.is_Callback");
 						}
 					});
 					$public.currentPage++;

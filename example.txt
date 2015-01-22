@@ -1,4 +1,4 @@
-$(".prateleira[id*=ResultItems]").infinityScroll();
+$(".prateleira[id*=ResultItems]").QD_infinityScroll();
 
 <div id="returnToTop"><a href="#"><span class="text">voltar ao</span><span class="text2">TOPO</span><span class="arrowToTop"></span></a></div>
 

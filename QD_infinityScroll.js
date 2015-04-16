@@ -1,7 +1,7 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.9
+* @version 3.10
 * @license MIT
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
@@ -180,6 +180,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 							if (data.trim().length < 1) {
 								$public.moreResults = false;
 								log("Não existem mais resultados a partir da página: " + requestedPage, "Aviso");
+								$(window).trigger("QuatroDigital.is_noMoreResults");
 							} else
 								options.insertContent(currentItems, data);
 							$public.currentStatus = true;

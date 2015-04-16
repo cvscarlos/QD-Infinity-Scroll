@@ -70,9 +70,19 @@ $(".prateleira[id*=ResultItems]").QD_infinityScroll({
 ----------
 ##Eventos
 
-###$(window).bind("QuatroDigital.cp_thumbsWrapperAdd", handler);
 
-Esse evento é disparado após as miniaturas de um produto estarem prontas, logo, isso ocorrerá uma vez para cada produto da vitrine.
+###$(window).bind("QuatroDigital.is_Callback", handler);
+
+Esse evento é disparado após cada requisição de uma nova página.
+
+**Parametros:**
+
+1. Objeto de [evento do jQuery](http://api.jquery.com/Types/#Event).
+
+
+###$(window).bind("QuatroDigital.is_noMoreResults", handler);
+
+Esse evento é disparado quando já não existem mais resultados para serem páginas, ou seja, chegamos na última página.
 
 **Parametros:**
 

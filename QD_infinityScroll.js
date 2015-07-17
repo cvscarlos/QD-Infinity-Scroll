@@ -1,7 +1,7 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.10
+* @version 3.11
 * @license MIT
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
@@ -21,7 +21,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 
 		// Função de log
 		extTitle = "Infinity Scroll";
-		var log = function (a, b) {if ("object" === typeof console) {var c = "object" === typeof a; "undefined" === typeof b || "alerta" !== b.toLowerCase() && "aviso" !== b.toLowerCase() ? "undefined" !== typeof b && "info" === b.toLowerCase() ? c ? console.info("[" + extTitle + "]\n", a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]) : console.info("[" + extTitle + "]\n" + a) : c ? console.error("[" + extTitle + "]\n", a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]) : console.error("[" + extTitle + "]\n" + a) : c ? console.warn("[" + extTitle + "]\n", a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]) : console.warn("[" + extTitle + "]\n" + a) } };
+		var log=function(c,b){if("object"===typeof console&&"undefined"!==typeof console.error&&"undefined"!==typeof console.info&&"undefined"!==typeof console.warn){var a;"object"===typeof c?(c.unshift("["+extTitle+"]\n"),a=c):a=["["+extTitle+"]\n"+c];if("undefined"===typeof b||"alerta"!==b.toLowerCase()&&"aviso"!==b.toLowerCase())if("undefined"!==typeof b&&"info"===b.toLowerCase())try{console.info.apply(console,a)}catch(d){try{console.info(a.join("\n"))}catch(e){}}else try{console.error.apply(console,a)}catch(f){try{console.error(a.join("\n"))}catch(g){}}else try{console.warn.apply(console, a)}catch(h){try{console.warn(a.join("\n"))}catch(k){}}}};
 
 		defaults = {
 			// Última prateleira/vitrine na página
@@ -115,22 +115,25 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 				});
 			},
 			getSearchUrl: function () {
-				var url, content, preg, pregCollection;
+				var url, content;
 				jQuery("script:not([src])").each(function () {
 					content = jQuery(this)[0].innerHTML;
-					preg = /\/buscapagina\?.+&PageNumber=/i;
-					pregCollection = /\/paginaprateleira\?.+PageNumber=/i;
-					if (content.indexOf("buscapagina") > -1) {
-						url = preg.exec(content);
+					if (content.indexOf("buscapagina") > -1){
+						url = (/\/buscapagina\?.+&PageNumber=/i).exec(content);
 						return false;
-					} else if (content.indexOf("paginaprateleira") > -1) {
-						url = pregCollection.exec(content);
+					}
+					else if (content.indexOf("paginaprateleira") > -1){
+						url = (/\/paginaprateleira\?.+PageNumber=/i).exec(content);
+						return false;
+					}
+					else if (content.indexOf("listapagina") > -1){
+						url = content.match(/\/listapagina\?.+PageNumber=/ig);
 						return false;
 					}
 				});
 
 				if (typeof url !== "undefined" && typeof url[0] !== "undefined")
-					return url[0].replace("paginaprateleira", 'buscapagina');
+					return url[0].indexOf("listapagina") > -1? url.pop(): url[0].replace("paginaprateleira", 'buscapagina');
 				else {
 					log("Não foi possível localizar a url de busca da página.\n Tente adicionar o .js ao final da página. \n[Método: getSearchUrl]");
 					return "";

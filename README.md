@@ -33,7 +33,7 @@ $(".prateleira[id*=ResultItems]").QD_infinityScroll();
 
 ###Avançado
 
-Configurações completas do plugin (lista atualizada em 23/12/2014):
+Configurações completas do plugin (lista atualizada em 23/10/2015):
 ```javascript
 $(".prateleira[id*=ResultItems]").QD_infinityScroll({
 	// Última prateleira/vitrine na página

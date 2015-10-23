@@ -39,20 +39,20 @@ $(".prateleira[id*=ResultItems]").QD_infinityScroll({
 	// Última prateleira/vitrine na página
 	lastShelf: ">div:last",
 	// Elemento com mensagem de carregando ao iniciar a requisição da página seguinte
-	elemLoading: '<div id="scrollLoading">Carregando ... </div>',
+	elemLoading: '<!-- Infinity Scroll - Loading message --><div id="scrollLoading" class="qd-is-loading">Carregando ... </div>',
 	// Opção p/ definir a URL manualmente, ficando automático apenas a paginação. A url deve terminar com "...&PageNumber="
 	searchUrl: null,
 	// Objeto jQuery com o botão de voltar ao topo
-	returnToTop: $('<div id="returnToTop"><a href="#"><span class="text">voltar ao</span><span class="text2">TOPO</span><span class="arrowToTop"></span></a></div>'),
+	returnToTop: $('<div id="returnToTop" class="qd-is-return-top"><a href="#"><span class="text">voltar ao</span><span class="text2">TOPO</span><span class="arrowToTop"></span></a></div>'),
 	// Define em qual seletor a ação de observar a rolagem será aplicado (ex.: $(window).scroll(...))
 	scrollBy: document,
 	// Callback quando uma requisição ajax da prateleira é completada
 	callback: function () {},
-	// Cálculo do tamanho do footer para que uam nova página seja chamada antes do usuário chegar ao "final" do site
-	getShelfHeight: function () {
+	// Cálculo do tamanho do footer para que uma nova página seja chamada antes do usuário chegar ao "final" do site
+	getShelfHeight: function ($this) {
 		return ($this.scrollTop() + $this.height());
 	},
-	// Opção para fazer a paginação manualmente, uma nova página só é chamada quando executado o comando dentro desta função
+	// Opção para fazer a paginação manualmente, uma nova página só é chamada quando executado o comando dentro desta função. Útil para ter um botão "Mostrar mais produtos"
 	// Ela recebe como parâmetro: 1 função que chama a próxima página (caso ela exista)
 	paginate: null,
 	// Esta função é quem controla onde o conteúdo será inserido. Ela recebe como parâmetro: O ùltimo bloco inserido e os dados da nova requisição AJAX

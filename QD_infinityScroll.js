@@ -1,7 +1,7 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.13
+* @version 3.14
 * @license MIT
 */
 if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
@@ -234,6 +234,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 	});
 
 	// Anula função da VTEX que faz rolagem na página após paginar
+	window.goToTopPage = function() {};
 	$(function() {
 		window.goToTopPage = function() {};
 	});

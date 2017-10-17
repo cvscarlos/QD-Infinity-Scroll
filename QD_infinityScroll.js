@@ -1,17 +1,17 @@
 /**
 * Infinity Scroll
 * @author Carlos Vinicius [Quatro Digital]
-* @version 3.14
+* @version 3.15
 * @license MIT
 */
-if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){ return this.replace(/^\s+|\s+$/g,""); };
+if ("function" !== typeof (String.prototype.trim)) String.prototype.trim = function () { return this.replace(/^\s+|\s+$/g, ""); };
 (function ($) {
 	"use strict";
 
 	if (typeof $.fn.QD_infinityScroll === "function") return;
 
 	// Iniciando as variáveis públicas do infinity scroll
-	window._QuatroDigital_InfinityScroll = window._QuatroDigital_InfinityScroll || {};
+	window._QuatroDigital_InfinityScroll = window._QuatroDigital_InfinityScroll || { allowNewPage: true };
 
 	$.fn.QD_infinityScroll = function (opts) {
 		"use strict";
@@ -21,7 +21,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 
 		// Função de log
 		var extTitle = "Infinity Scroll";
-		var log=function(c,b){if("object"===typeof console&&"undefined"!==typeof console.error&&"undefined"!==typeof console.info&&"undefined"!==typeof console.warn){var a;"object"===typeof c?(c.unshift("["+extTitle+"]\n"),a=c):a=["["+extTitle+"]\n"+c];if("undefined"===typeof b||"alerta"!==b.toLowerCase()&&"aviso"!==b.toLowerCase())if("undefined"!==typeof b&&"info"===b.toLowerCase())try{console.info.apply(console,a)}catch(d){try{console.info(a.join("\n"))}catch(e){}}else try{console.error.apply(console,a)}catch(f){try{console.error(a.join("\n"))}catch(g){}}else try{console.warn.apply(console, a)}catch(h){try{console.warn(a.join("\n"))}catch(k){}}}};
+		var log=function(b,c){if("object"===typeof console&&"undefined"!==typeof console.error&&"undefined"!==typeof console.info&&"undefined"!==typeof console.warn){if("object"==typeof b&&"function"==typeof b.unshift){b.unshift("["+extTitle+"]\n");var a=b}else a=["["+extTitle+"]\n",b];if("undefined"==typeof c||"alerta"!==c.toLowerCase()&&"aviso"!==c.toLowerCase())if("undefined"!=typeof c&&"info"==c.toLowerCase())try{console.info.apply(console,a)}catch(d){try{console.info(a.join("\n"))}catch(e){}}else try{console.error.apply(console,a)}catch(d){try{console.error(a.join("\n"))}catch(e){}}else try{console.warn.apply(console,a)}catch(d){try{console.warn(a.join("\n"))}catch(e){}}}};
 
 		var defaults = {
 			// Última prateleira/vitrine na página
@@ -35,7 +35,7 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			// Define em qual seletor a ação de observar a rolagem será aplicado (ex.: $(window).scroll(...))
 			scrollBy: document,
 			// Callback quando uma requisição ajax da prateleira é completada
-			callback: function () {},
+			callback: function () { },
 			// Cálculo do tamanho do footer para que uma nova página seja chamada antes do usuário chegar ao "final" do site
 			getShelfHeight: function ($this) {
 				return ($this.scrollTop() + $this.height());
@@ -95,12 +95,12 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 			var scrollTimeout = 0;
 			$htmlWrapper.bind("scroll.QD_infinityScroll", function () {
 				clearTimeout(scrollTimeout);
-				scrollTimeout = setTimeout(function(){
+				scrollTimeout = setTimeout(function () {
 					if ($document.scrollTop() > windowH) {
 						if (!document.body.getAttribute("data-qd-infinity-scroll"))
 							document.body.setAttribute("data-qd-infinity-scroll", 1);
 					} else if (document.body.getAttribute("data-qd-infinity-scroll"))
-					document.body.removeAttribute("data-qd-infinity-scroll");
+						document.body.removeAttribute("data-qd-infinity-scroll");
 				}, 20);
 			});
 
@@ -163,7 +163,14 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 				$public.pages = 9999999999999;
 
 			var getShelf = function () {
-				if (!$public.currentStatus) return;
+				if (!$public.allowNewPage)
+					return;
+
+				$(window).trigger('QuatroDigital.is_getShelf');
+			};
+			$(window).on('QuatroDigital.is_getShelf', function () {
+				if (!$public.currentStatus)
+					return;
 
 				var currentItems = $this.find(options.lastShelf);
 				if (currentItems.length < 1) {
@@ -182,7 +189,8 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 							$public.moreResults = false;
 							log("Não existem mais resultados a partir da página: " + requestedPage, "Aviso");
 							$(window).trigger("QuatroDigital.is_noMoreResults");
-						} else
+						}
+						else
 							options.insertContent(currentItems, data);
 						$public.currentStatus = true;
 						elemLoading.remove();
@@ -193,27 +201,27 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 					complete: function (jqXHR, textStatus) {
 						options.callback();
 
-						$(window).trigger("QuatroDigital.is_Callback");
+						$(window).trigger("QuatroDigital.is_Callback", [jqXHR, textStatus]);
 					}
 				});
 				$public.currentPage++;
-			};
+			});
 
 			if (typeof options.paginate === "function")
 				options.paginate(
 					function () {
-						if ($public.currentPage <= $public.pages && $public.moreResults){
+						if ($public.currentPage <= $public.pages && $public.moreResults) {
 							getShelf();
 							return true;
 						}
 						return false;
 					}
 				);
-			else{
+			else {
 				var scrollTimeout = 0;
 				$htmlWrapper.bind("scroll.QD_infinityScroll_paginate", function () {
 					clearTimeout(scrollTimeout);
-					scrollTimeout = setTimeout(function(){
+					scrollTimeout = setTimeout(function () {
 						if ($public.currentPage <= $public.pages && $public.moreResults && options.authorizeScroll() && ($window.scrollTop() + $window.height()) >= options.getShelfHeight($this))
 							getShelf();
 					}, 70);
@@ -223,19 +231,21 @@ if("function"!==typeof(String.prototype.trim)) String.prototype.trim=function(){
 
 		scrollToTop();
 		infinityScroll();
+		$(window).trigger("QuatroDigital.is_ready");
+		$public.ready = true;
 
 		return $this;
 	};
 
 	// Anulando a função de paginação da VTEX
-	$(document).ajaxSend(function(e, request, settings) {
-		if(settings.url.indexOf("PageNumber") > -1 && settings.url.search(/PageNumber\=[^0-9]+/) > 0)
+	$(document).ajaxSend(function (e, request, settings) {
+		if (settings.url.indexOf("PageNumber") > -1 && settings.url.search(/PageNumber\=[^0-9]+/) > 0)
 			request.abort();
 	});
 
 	// Anula função da VTEX que faz rolagem na página após paginar
-	window.goToTopPage = function() {};
-	$(function() {
-		window.goToTopPage = function() {};
+	window.goToTopPage = function () { };
+	$(function () {
+		window.goToTopPage = function () { };
 	});
 })(jQuery);
